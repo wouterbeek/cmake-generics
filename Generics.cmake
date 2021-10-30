@@ -512,7 +512,7 @@ endif()
 # cppcheck
 # --------
 
-option(use_cppcheck "Whether to use cppcheck for static analysis." ON)
+option(use_cppcheck "Whether to use cppcheck for static analysis." OFF)
 if(use_cppcheck)
   find_program(cppcheck cppcheck)
   if(cppcheck)
@@ -526,7 +526,7 @@ endif()
 # clang-tidy
 # ----------
 
-option(use_clang_tidy "Whether to use clang-tidy for static analysis." ON)
+option(use_clang_tidy "Whether to use clang-tidy for static analysis." OFF)
 if (use_clang_tidy)
   find_program(clangTidy clang-tidy)
   if(clangTidy)
