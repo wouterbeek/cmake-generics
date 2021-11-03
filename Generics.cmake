@@ -1,5 +1,7 @@
 # -*- mode: cmake; -*-
 
+# version: 0.2.0
+
 # Important directories
 # =====================
 #
@@ -303,10 +305,14 @@ else()
   #   PRIVATE
   #     CONAN_PKG::dependencyB)
   # ```
+  find_file(conanfile
+    NAMES conanfile.py conanfile.txt
+    PATHS .
+    REQUIRED)
   conan_cmake_run(
     BASIC_SETUP CMAKE_TARGETS
     BUILD missing
-    CONANFILE conanfile.py)
+    CONANFILE ${conanfile})
 endif()
 
 
