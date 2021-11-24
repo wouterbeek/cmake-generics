@@ -263,57 +263,48 @@ endif()
 # therefore assume that the Conan configuration files always called
 # ‘conanfile.py’.
 
-if(CONAN_EXPORTED)
-  include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
-  conan_basic_setup(TARGETS)
-else()
-  if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/conan.cmake)
-    # Securely download files
-    # -----------------------
-    #
-    # We sometimes want to download resources from the Internet during
-    # the build.  When we do so, we want to guarantee that we can trust
-    # the contents of such downloads, so they will all be over an secure
-    # (SSL) connection.
-    #
-    # The following snippet shows how the Conan/CMake resource is
-    # downloaded from Github.  Notice that we keep a log file, show the
-    # download progress, set a timeout, and verify the status object.
-    file(
-      DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.16.1/conan.cmake"
-      ${CMAKE_CURRENT_BINARY_DIR}/conan.cmake
-      INACTIVITY_TIMEOUT 1
-      LOG ${CMAKE_CURRENT_BINARY_DIR}/download.log
-      SHOW_PROGRESS
-      STATUS status-object
-      TLS_VERIFY ON)
-    list(GET status-object 0 status-code)
-    if(NOT status-code EQUAL 0)
-      list(GET status 1 status-message)
-      file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/conan.cmake)
-      message(FATAL_ERROR "Could not download required Conan support: " ${status-message})
-    endif()
-  endif()
-  include(${CMAKE_CURRENT_BINARY_DIR}/conan.cmake)
-  # This allows Conan dependencies to be included as CMake
-  # targets in the following way:
+if(NOT EXISTS ${CMAKE_BINARY_DIR}/conan.cmake)
+  message(STATUS "Downloading conan.cmake from <https://github.com/conan-io/cmake-conan>.")
+  # Securely download files
+  # -----------------------
   #
-  # ```cmake
-  # target_link_libraries(someTarget
-  #   PUBLIC
-  #     CONAN_PKG::dependencyA
-  #   PRIVATE
-  #     CONAN_PKG::dependencyB)
-  # ```
-  find_file(conanfile
-    NAMES conanfile.py conanfile.txt
-    PATHS .
-    REQUIRED)
-  conan_cmake_run(
-    BASIC_SETUP CMAKE_TARGETS
-    BUILD missing
-    CONANFILE ${conanfile})
+  # We sometimes want to download resources from the Internet during
+  # the build.  When we do so, we want to guarantee that we can trust
+  # the contents of such downloads, so they will all be over an secure
+  # (SSL) connection.
+  #
+  # The following snippet shows how the Conan/CMake resource is
+  # downloaded from Github.  Notice that we keep a log file, show the
+  # download progress, set a timeout, and verify the status object.
+  file(
+    DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.16.1/conan.cmake"
+    ${CMAKE_BINARY_DIR}/conan.cmake
+    EXPECTED_HASH SHA256=396e16d0f5eabdc6a14afddbcfff62a54a7ee75c6da23f32f7a31bc85db23484
+    TLS_VERIFY ON)
 endif()
+
+include(${CMAKE_CURRENT_BINARY_DIR}/conan.cmake)
+
+# Look for either ‘conanfile.py’ or ‘conanfile.txt’ (in that order).
+find_file(conanfile
+  NAMES conanfile.py conanfile.txt
+  PATHS .
+  REQUIRED)
+
+# This allows Conan dependencies to be included as CMake
+# targets in the following way:
+#
+# ```cmake
+# target_link_libraries(someTarget
+#   PUBLIC
+#     CONAN_PKG::dependencyA
+#   PRIVATE
+#     CONAN_PKG::dependencyB)
+# ```
+conan_cmake_run(
+  BASIC_SETUP CMAKE_TARGETS
+  BUILD missing
+  CONANFILE ${conanfile})
 
 
 
