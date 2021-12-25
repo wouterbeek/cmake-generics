@@ -249,7 +249,7 @@ endif()
 # =============
 #
 # The Conan/CMake project
-# (https://github.com/conan-io/cmake-conan/raw/v0.16.1/conan.cmake)
+# (https://github.com/conan-io/cmake-conan/raw/v0.17.0/conan.cmake)
 # allows us to use Conan dependencies as regular CMake targets.
 #
 # The following snippet ensures that Conan/CMake is present in a
@@ -264,7 +264,7 @@ endif()
 # ‘conanfile.py’.
 
 if(NOT EXISTS ${CMAKE_BINARY_DIR}/conan.cmake)
-  message(STATUS "Downloading conan.cmake from <https://github.com/conan-io/cmake-conan>.")
+  message(STATUS "Downloading conan.cmake v0.17.0 from <https://github.com/conan-io/cmake-conan>.")
   # Securely download files
   # -----------------------
   #
@@ -277,12 +277,21 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/conan.cmake)
   # downloaded from Github.  Notice that we keep a log file, show the
   # download progress, set a timeout, and verify the status object.
   file(
-    DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.16.1/conan.cmake"
+    DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.17.0/conan.cmake"
     ${CMAKE_BINARY_DIR}/conan.cmake
-    EXPECTED_HASH SHA256=396e16d0f5eabdc6a14afddbcfff62a54a7ee75c6da23f32f7a31bc85db23484
+    EXPECTED_HASH SHA256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+    INACTIVITY_TIMEOUT 1
+    LOG ${CMAKE_BINARY_DIR}/conan.cmake.log
+    SHOW_PROCESSS
+    STATUS status-object
     TLS_VERIFY ON)
+  list(GET status-object 0 status-code)
+  if(NOT status-code EQUAL 0)
+    list(GET status-object 1 status-message)
+    file(REMOVE ${CMAKE_BINARY_DIR}/conan.cmake)
+    message(FATAL_ERROR "Could not download ‘conan.cmake’ file: ${status-message}")
+  endif()
 endif()
-
 include(${CMAKE_CURRENT_BINARY_DIR}/conan.cmake)
 
 # Look for either ‘conanfile.py’ or ‘conanfile.txt’ (in that order).
