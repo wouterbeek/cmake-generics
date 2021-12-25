@@ -4,7 +4,7 @@
 #+begin_src cmake
   if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/Generics.cmake)
     file(
-      DOWNLOAD "https://github.com/wouterbeek/cmake-generics/raw/v0.2.2/Generics.cmake"
+      DOWNLOAD "https://github.com/wouterbeek/cmake-generics/raw/v0.2.3/Generics.cmake"
       ${CMAKE_BINARY_DIR}/Generics.cmake
       INACTIVITY_TIMEOUT 1
       LOG ${CMAKE_BINARY_DIR}/Generics.cmake.log
@@ -18,5 +18,5 @@
       message(FATAL_ERROR "Could not download ‘Generics.cmake’ file: " ${status-message})
     endif()
   endif()
-  include(${CMAKE_CURRENT_BINARY_DIR}/Generics.cmake)
+  include(${CMAKE_BINARY_DIR}/Generics.cmake)
 #+end_src

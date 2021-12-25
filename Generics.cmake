@@ -1,6 +1,6 @@
 # -*- mode: cmake; -*-
 
-# version: 0.2.0
+# version: 0.2.3
 
 # Important directories
 # =====================
@@ -444,7 +444,7 @@ set(gcc-warnings
   -Wuseless-cast # Warn if you perform a cast to the same type.
 )
 add_library(generics INTERFACE)
-add_library(hdt::generics ALIAS generics)
+add_library(triply::generics ALIAS generics)
 target_compile_features(generics
   INTERFACE cxx_std_20)
 target_compile_options(generics
