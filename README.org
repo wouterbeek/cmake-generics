@@ -7,11 +7,11 @@ generics in this project:
 #+begin_src cmake
   list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
   if(NOT EXISTS ${CMAKE_BINARY_DIR}/Generics.cmake)
-    message(STATUS "Downloading CMake Generics 0.3.0")
+    message(STATUS "Downloading CMake Generics 0.3.1")
     file(
-      DOWNLOAD "https://github.com/wouterbeek/cmake-generics/raw/0.3.0/Generics.cmake"
+      DOWNLOAD "https://github.com/wouterbeek/cmake-generics/raw/0.3.1/Generics.cmake"
       ${CMAKE_BINARY_DIR}/Generics.cmake
-      EXPECTED_HASH SHA256=02e439710dbca5b2c0e999ce63fcb7456f00529c74a4f4dc19faf3be3ff915aa
+      EXPECTED_HASH SHA256=e8f3a4d2b242b1a0129fd9d50f50bedca6014ad94a494353bab6817c34155f27
       INACTIVITY_TIMEOUT 1
       SHOW_PROGRESS
       STATUS status-object
@@ -23,5 +23,5 @@ generics in this project:
       message(FATAL_ERROR "Could not download Generics.cmake: " ${status-message})
     endif()
   endif()
-  include(Generics.cmake)
+  include(Generics)
 #+end_src
