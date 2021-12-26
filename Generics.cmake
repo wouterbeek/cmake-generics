@@ -1,6 +1,6 @@
 # -*- mode: cmake; -*-
 
-# version: 0.3.1
+# version: 0.3.2
 
 # Important directories
 # =====================
@@ -298,7 +298,7 @@ include(conan)
 # Look for either ‘conanfile.py’ or ‘conanfile.txt’ (in that order).
 find_file(conanfile
   NAMES conanfile.py conanfile.txt
-  PATHS .
+  PATHS ${PROJECT_SOURCE_DIR}
   REQUIRED)
 
 # This allows Conan dependencies to be included as CMake
