@@ -1,13 +1,18 @@
 # -*- mode: org; -*-
 #+title: CMake Generics
 
+Use the following snippet to your ~CMakeLists.txt~ file to use the
+generics in this project:
+
 #+begin_src cmake
-  if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/Generics.cmake)
+  list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+  if(NOT EXISTS ${CMAKE_BINARY_DIR}/Generics.cmake)
+    message(STATUS "Downloading CMake Generics 0.3.0")
     file(
-      DOWNLOAD "https://github.com/wouterbeek/cmake-generics/raw/v0.2.4/Generics.cmake"
+      DOWNLOAD "https://github.com/wouterbeek/cmake-generics/raw/0.3.0/Generics.cmake"
       ${CMAKE_BINARY_DIR}/Generics.cmake
+      EXPECTED_HASH SHA256=02e439710dbca5b2c0e999ce63fcb7456f00529c74a4f4dc19faf3be3ff915aa
       INACTIVITY_TIMEOUT 1
-      LOG ${CMAKE_BINARY_DIR}/Generics.cmake.log
       SHOW_PROGRESS
       STATUS status-object
       TLS_VERIFY ON)
@@ -15,8 +20,8 @@
     if(NOT status-code EQUAL 0)
       list(GET status-object 1 status-message)
       file(REMOVE ${CMAKE_BINARY_DIR}/Generics.cmake)
-      message(FATAL_ERROR "Could not download ‘Generics.cmake’ file: " ${status-message})
+      message(FATAL_ERROR "Could not download Generics.cmake: " ${status-message})
     endif()
   endif()
-  include(${CMAKE_BINARY_DIR}/Generics.cmake)
+  include(Generics.cmake)
 #+end_src

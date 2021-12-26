@@ -1,6 +1,6 @@
 # -*- mode: cmake; -*-
 
-# version: 0.2.4
+# version: 0.3.0
 
 # Important directories
 # =====================
@@ -264,7 +264,7 @@ endif()
 # ‘conanfile.py’.
 
 if(NOT EXISTS ${CMAKE_BINARY_DIR}/conan.cmake)
-  message(STATUS "Downloading conan.cmake v0.16.1 from <https://github.com/conan-io/cmake-conan>.")
+  message(STATUS "Downloading conan.cmake 0.17.0")
   # Securely download files
   # -----------------------
   #
@@ -277,11 +277,10 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/conan.cmake)
   # downloaded from Github.  Notice that we keep a log file, show the
   # download progress, set a timeout, and verify the status object.
   file(
-    DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.16.1/conan.cmake"
+    DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.17.0/conan.cmake"
     ${CMAKE_BINARY_DIR}/conan.cmake
-    EXPECTED_HASH SHA256=396e16d0f5eabdc6a14afddbcfff62a54a7ee75c6da23f32f7a31bc85db23484
+    EXPECTED_HASH SHA256=3bef79da16c2e031dc429e1dac87a08b9226418b300ce004cc125a82687baeef
     INACTIVITY_TIMEOUT 1
-    LOG ${CMAKE_BINARY_DIR}/conan.cmake.log
     SHOW_PROGRESS
     STATUS status-object
     TLS_VERIFY ON)
@@ -289,10 +288,12 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/conan.cmake)
   if(NOT status-code EQUAL 0)
     list(GET status-object 1 status-message)
     file(REMOVE ${CMAKE_BINARY_DIR}/conan.cmake)
-    message(FATAL_ERROR "Could not download ‘conan.cmake’ file: ${status-message}")
+    message(FATAL_ERROR "Could not download conan.cmake: ${status-message}")
   endif()
 endif()
-include(${CMAKE_CURRENT_BINARY_DIR}/conan.cmake)
+# Because CMAKE_BINARY_DIR was added to the CMAKE_MODULE_PATH, we can
+# include ‘conan.cmake’ in the following way:
+include(conan)
 
 # Look for either ‘conanfile.py’ or ‘conanfile.txt’ (in that order).
 find_file(conanfile
