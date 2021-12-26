@@ -7,11 +7,11 @@ generics in this project:
 #+begin_src cmake
   list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
   if(NOT EXISTS ${CMAKE_BINARY_DIR}/Generics.cmake)
-    message(STATUS "Downloading CMake Generics 0.3.2")
+    message(STATUS "Downloading CMake Generics 0.3.3")
     file(
-      DOWNLOAD "https://github.com/wouterbeek/cmake-generics/raw/0.3.2/Generics.cmake"
+      DOWNLOAD "https://github.com/wouterbeek/cmake-generics/raw/0.3.3/Generics.cmake"
       ${CMAKE_BINARY_DIR}/Generics.cmake
-      EXPECTED_HASH SHA256=a21b4e7aa75bb4717e1f18a526c2f2a49fd18a1defcdea1ce015d5681b4983a1
+      EXPECTED_HASH SHA256=27c793c78ff29fcd6d417a134c0a5d12c8a29644fabb7db9b64dc7253feb6fc2
       INACTIVITY_TIMEOUT 1
       SHOW_PROGRESS
       STATUS status-object

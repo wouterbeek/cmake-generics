@@ -1,6 +1,6 @@
 # -*- mode: cmake; -*-
 
-# version: 0.3.2
+# version: 0.3.3
 
 # Important directories
 # =====================
@@ -295,14 +295,19 @@ endif()
 # include ‘conan.cmake’ in the following way:
 include(conan)
 
-# Look for either ‘conanfile.py’ or ‘conanfile.txt’ (in that order).
-find_file(conanfile
-  NAMES conanfile.py conanfile.txt
-  PATHS ${PROJECT_SOURCE_DIR}
-  REQUIRED)
-
-# This allows Conan dependencies to be included as CMake
-# targets in the following way:
+# Include the following in you ‘CMakeLists.txt’ file:
+#
+# ```cmake
+# conan_cmake_run(
+#   BASIC_SETUP CMAKE_TARGETS
+#   BUILD missing
+#   CONANFILE conanfile.py)
+# ```
+#
+# You may need to change ‘conanfile.py’ into ‘conanfile.txt’.
+#
+# This allows Conan dependencies to be included as CMake targets in
+# the following way:
 #
 # ```cmake
 # target_link_libraries(someTarget
@@ -311,10 +316,6 @@ find_file(conanfile
 #   PRIVATE
 #     CONAN_PKG::dependencyB)
 # ```
-conan_cmake_run(
-  BASIC_SETUP CMAKE_TARGETS
-  BUILD missing
-  CONANFILE ${conanfile})
 
 
 
