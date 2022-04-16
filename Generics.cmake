@@ -1,5 +1,3 @@
-# -*- mode: cmake; -*-
-
 # version: 0.3.3
 
 # Important directories
@@ -248,8 +246,7 @@ endif()
 # Conan support
 # =============
 #
-# The Conan/CMake project
-# (https://github.com/conan-io/cmake-conan/raw/v0.16.1/conan.cmake)
+# The Conan/CMake project (https://github.com/conan-io/cmake-conan)
 # allows us to use Conan dependencies as regular CMake targets.
 #
 # The following snippet ensures that Conan/CMake is present in a
@@ -264,7 +261,7 @@ endif()
 # ‘conanfile.py’.
 
 if(NOT EXISTS ${CMAKE_BINARY_DIR}/conan.cmake)
-  message(STATUS "Downloading conan.cmake 0.17.0")
+  message(STATUS "Downloading conan.cmake 0.18.1")
   # Securely download files
   # -----------------------
   #
@@ -277,9 +274,8 @@ if(NOT EXISTS ${CMAKE_BINARY_DIR}/conan.cmake)
   # downloaded from Github.  Notice that we keep a log file, show the
   # download progress, set a timeout, and verify the status object.
   file(
-    DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.17.0/conan.cmake"
+    DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.18.1/conan.cmake"
     ${CMAKE_BINARY_DIR}/conan.cmake
-    EXPECTED_HASH SHA256=3bef79da16c2e031dc429e1dac87a08b9226418b300ce004cc125a82687baeef
     INACTIVITY_TIMEOUT 1
     SHOW_PROGRESS
     STATUS status-object
